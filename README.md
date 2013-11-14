@@ -52,6 +52,43 @@ a particular firewall via the index i since each switch device practically doubl
 
 Tests and Results
 -----------------
-Using dynamic_host.py, I was able to test the firewall prototype with a modified PingAll test.
-I used 15 hosts with each connected to a switch and these switches are then connected a single central switch.
-I've uploaded of my test results in this repository.
+Using dynamic_host.py, I was able to test the firewall prototype with a ping test which pings every possible host
+combination 4 times. I used 15 hosts with each connected to a switch and these switches are then connected a single central switch.
+A total of three test parameters was done. The first involved no rules applied at all, the second involved
+all the firewalls having the same rules and the last involved having only the central switch with the rules.
+
+In order to recreate the test results, here are the steps:
+
+**Case 1: No rules applied**
+
+  1.) <code>./pox.py py log.level --DEBUG firewall_pt_fb switch_pt</code>
+
+  2.) <code>./dynamic_host.py -s 15</code>
+
+  3.) In the mininet console: press y and enter
+  
+  4.) Exit POX and mininet to reset
+  
+**Case 2: Rules applied to all**
+
+  1.) <code>./pox.py py log.level --DEBUG firewall_pt_fb switch_pt</code>
+
+  2.) <code>./dynamic_host.py -s 15</code>
+
+  3.) In the pox console: <code>fw[0].addRule("10.0.0.1", True)</code>
+  
+  4.) In the mininet console: press y and enter
+  
+  5.) Exit POX and mininet to reset
+  
+**Case 3: Rules applied to central switch only**
+
+  1.) <code>./pox.py py log.level --DEBUG firewall_pt_fb switch_pt</code>
+
+  2.) <code>./dynamic_host.py -s 15</code>
+
+  3.) In the pox console: <code>fw[0].addRule("10.0.0.1")</code>
+  
+  4.) In the mininet console: press y and enter
+  
+  5.) Exit POX and mininet to reset
