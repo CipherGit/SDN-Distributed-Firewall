@@ -19,3 +19,39 @@ to develop the prototypes with POX as the primary controller. The prototype was 
 using mininet but no actual hardware implementation has been done as of writing. The source
 codes can be downloaded from this repository.
 
+How to Use the Files
+-------------
+1. Run the pox controller in interactive mode with the firewall_pt_fb file and 
+your choice implementation for an l2 switch. In the sample command below, I'm using 
+my own implementation for the l2 switch:
+
+  <code>./pox.py py log.level --DEBUG firewall_pt_fb switch_pt</code>
+
+2. In a separate console, you can create a mininet simulation of a network. For test purposes, 
+I used an experimental topology wherein there is a central switch and the user may choose 
+to add N number of switches to this central switch with each connected to thier own hosts:
+    
+  <code>./dynamic_host.py -s N</code>
+
+3. At this point, you may opt to give the firewalls some commands by referring to
+a particular firewall via the index i since each switch device practically doubles as a firewall. 
+
+  To add a rule to a particular firewall:
+  
+  <code>fw[i].addRule(address, toAll=False, dl_type, nw_proto)</code>
+  
+  To remove a rule from a particular firewall:
+  
+  <code>fw[i].delRule(address, toAll=False, dl_type, nw_proto)</code>
+  
+  To show installed rules in a particular firewall:
+  
+  <code>fw[i].showRules()</code>
+  
+  Take not that if the toAll argument is true, then the rule would be added or removed in all firewalls
+
+Tests and Results
+-----------------
+Using dynamic_host.py, I was able to test the firewall prototype with a modified PingAll test.
+I used 15 hosts with each connected to a switch and these switches are then connected a single central switch.
+I've uploaded of my test results in this repository.
